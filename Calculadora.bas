@@ -1,4 +1,5 @@
-
+sertxd ("Esperando iniciar...",lf,cr)
+serrxd b0
 ;b1=0, b2=0, b3=0, b4=0, b5=0
 
 bienvenida: 
@@ -24,13 +25,14 @@ menu:
 	sertxd ("Suma          : + ",lf,cr)
 	sertxd ("Resta         : - ",lf,cr)
 	sertxd ("Multiplicacion: * ",lf,cr)
+	sertxd ("Division      : / ",lf,cr)
 	sertxd ("AND           : & ",lf,cr)
 	sertxd ("OR            : | ",lf,cr)
-	sertxd ("Salir         : S ",lf,cr)
+ 	sertxd ("Salir         : S ",lf,cr)
 	sertxd ("------------------",lf,cr)
 	serrxd b3
  	
-	if b3="S" then 
+	if b3="S" or b3="|" or b3="&"  then 
 		goto operacion
 	else
 		sertxd ("Ingresa un valor n1: ",lf,cr)
@@ -57,18 +59,22 @@ operacion:
 			if b3="*" then
 				goto multiplicacion
 			else
-				if b3="&" then
-				goto an
+				if b3="/" then
+				goto division
 				else
-					if b3="|" then
-						goto o
+					if b3="&" then
+						goto an
 					else
-						if b3="S" then
-							goto salir
+						if b3="|" then
+							goto o
 						else
-							sertxd ("Caracter no valido",lf,cr)
-							pause 1000
-							goto menu
+							if b3="S" then
+								goto salir
+							else
+								sertxd ("Caracter no valido",lf,cr)
+								pause 1000
+								goto menu
+							endif
 						endif
 					endif
 				endif
@@ -85,34 +91,69 @@ suma:
 	sertxd ("- Bienvenido a suma -",lf,cr)
 	b5 = b1 + b2
 	sertxd(#b1,b3,#b2," = ",#b5,13,10)
-	let dirsC = %11111111
-	let pinsC = b5
+	let dirsB = %11111111
+	let pinsB = b5
 	pause 5000
-	let pinsC = 0
+	let pinsB = 0
 	goto menu
 resta: 
 	sertxd ("- Bienvenido a resta -",lf,cr)
 	b5 = b1 - b2
 	sertxd(#b1,b3,#b2," = ",#b5,13,10)
-	let dirsC = %11111111
-	let pinsC = b5
+	let dirsB = %11111111
+	let pinsB = b5
 	pause 5000
-	let pinsC = 0
+	let pinsB = 0
 	goto menu
 multiplicacion: 
 	sertxd ("- Bienvenido a multiplicacion -",lf,cr)
 	b5 = b1 * b2
 	sertxd(#b1,b3,#b2," = ",#b5,13,10)
-	let dirsC = %11111111
-	let pinsC = b5
+	let dirsB = %11111111
+	let pinsB = b5
 	pause 5000
-	let pinsC = 0
+	let pinsB = 0
+	goto menu
+division: 
+	sertxd ("- Bienvenido a division -",lf,cr)
+	b5 = b1 / b2
+	sertxd(#b1,b3,#b2," = ",#b5,13,10)
+	let dirsB = %11111111
+	let pinsB = b5
+	pause 5000
+	let pinsB = 0
 	goto menu
 an: 
 	sertxd ("- Bienvenido a AND -",lf,cr)
+	let dirsC = %00000000
+	if pinC.7 = 1 and pinC.6 = 1 then
+		sertxd ("TRUE",lf,cr)
+		b5 = 255
+		let dirsB = %11111111
+		let pinsB = b5
+	else
+		sertxd ("FALSE",lf,cr)
+		let dirsB = %11111111
+		let pinsB = 0	
+	endif
+	pause 5000
+	let pinsB = 0
 	goto menu
 o: 
 	sertxd ("- Bienvenido a OR -",lf,cr)
+	let dirsC = %00000000
+	if pinC.7 = 1 or pinC.6 = 1 then
+		sertxd ("TRUE",lf,cr)
+		b5 = 255
+		let dirsB = %11111111
+		let pinsB = b5
+	else
+		sertxd ("FALSE",lf,cr)
+		let dirsB = %11111111
+		let pinsB = 0	
+	endif
+	pause 5000
+	let pinsB = 0
 	goto menu
 salir:
 	sertxd ("Gracias por ver!",lf,cr)
